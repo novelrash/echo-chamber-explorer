@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Analysis History - Echo Chamber Explorer{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2 class="mb-4">Analysis History</h2>
+        
+        {% if articles %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Title</th>
+                        <th>Source</th>
+                        <th>Bias Score</th>
+                        <th>Sentiment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for article in articles %}
+                    <tr>
+                        <td>{{ article.created_at[:16] if article.created_at else 'N/A' }}</td>
+                        <td>
+                            {% if article.title %}
+                                {{ article.title[:50] }}{% if article.title|length > 50 %}...{% endif %}
+                            {% else %}
+                                <em>No title</em>
+                            {% endif %}
+                        </td>
+                        <td>{{ article.source_name or 'Unknown' }}</td>
+                        <td>
+                            {% if article.bias_score is not none %}
+                                <span class="badge {% if article.bias_score < -0.3 %}bg-info{% elif article.bias_score > 0.3 %}bg-warning{% else %}bg-success{% endif %}">
+                                    {{ "%.3f"|format(article.bias_score) }}
+                                </span>
+                            {% else %}
+                                <span class="text-muted">N/A</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if article.sentiment_polarity is not none %}
+                                {{ "%.2f"|format(article.sentiment_polarity) }}
+                            {% else %}
+                                <span class="text-muted">N/A</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <h4 class="text-muted">No analyses yet</h4>
+            <p>Start by analyzing some content to see your history here.</p>
+            <a href="{{ url_for('analyze') }}" class="btn btn-primary">
+                Analyze Content
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Analysis Results - Echo Chamber Explorer{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-10 mx-auto">
+        <h2 class="mb-4">Bias Analysis Results</h2>
+        
+        <!-- Main Results Card -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4 class="mb-0">
+                    Bias Score: 
+                    <span class="badge {% if results.bias_score < -0.3 %}bg-info{% elif results.bias_score > 0.3 %}bg-warning{% else %}bg-success{% endif %} fs-5">
+                        {{ "%.3f"|format(results.bias_score) }}
+                    </span>
+                </h4>
+                <p class="mb-0 text-muted">{{ results.bias_description }}</p>
+            </div>
+            <div class="card-body">
+                <p><strong>Scale:</strong> {{ results.scale_info }}</p>
+                <p><strong>Methodology:</strong> {{ results.methodology }}</p>
+                
+                {% if results.analysis_details.methodology_scores %}
+                <h6>Component Breakdown:</h6>
+                <div class="row">
+                    {% for method, data in results.analysis_details.methodology_scores.items() %}
+                    <div class="col-md-6 col-lg-3 mb-2">
+                        <div class="card bg-light">
+                            <div class="card-body text-center py-2">
+                                <h6 class="card-title mb-1">{{ method.title() }}</h6>
+                                <p class="card-text mb-1">
+                                    <strong>{{ "%.3f"|format(data.score) }}</strong>
+                                </p>
+                                <small class="text-muted">
+                                    Weight: {{ "%.0f"|format(results.analysis_details.methodology_weights[method] * 100) }}%
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Content Summary -->
+        {% if title or url or source_name %}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Content Information</h5>
+            </div>
+            <div class="card-body">
+                {% if title %}<p><strong>Title:</strong> {{ title }}</p>{% endif %}
+                {% if source_name %}<p><strong>Source:</strong> {{ source_name }}</p>{% endif %}
+                {% if url %}<p><strong>URL:</strong> <a href="{{ url }}" target="_blank">{{ url }}</a></p>{% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Analyzed Content -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Analyzed Content</h5>
+            </div>
+            <div class="card-body">
+                <div class="content-preview" style="max-height: 300px; overflow-y: auto;">
+                    {{ content|replace('\n', '<br>')|safe }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="text-center">
+            <a href="{{ url_for('analyze') }}" class="btn btn-primary">
+                Analyze Another Article
+            </a>
+            <a href="{{ url_for('history') }}" class="btn btn-outline-secondary">
+                View History
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

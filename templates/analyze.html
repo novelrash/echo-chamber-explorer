@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Analyze Content - Echo Chamber Explorer{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <h2 class="mb-4">Analyze Content for Bias</h2>
+        
+        {% if error %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        <form method="POST" class="mb-4">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title (Optional)</label>
+                <input type="text" class="form-control" id="title" name="title" 
+                       placeholder="Article or content title">
+            </div>
+            
+            <div class="mb-3">
+                <label for="url" class="form-label">URL (Optional)</label>
+                <input type="url" class="form-control" id="url" name="url" 
+                       placeholder="https://example.com/article">
+            </div>
+            
+            <div class="mb-3">
+                <label for="source_name" class="form-label">Source (Optional)</label>
+                <input type="text" class="form-control" id="source_name" name="source_name" 
+                       placeholder="News outlet or publication name">
+            </div>
+            
+            <div class="mb-3">
+                <label for="content" class="form-label">Content to Analyze *</label>
+                <textarea class="form-control" id="content" name="content" rows="10" 
+                          placeholder="Paste the article text or content you want to analyze for bias..." 
+                          required></textarea>
+                <div class="form-text">
+                    Paste the full text of an article, news story, or other content for bias analysis.
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-lg">
+                Analyze Bias
+            </button>
+        </form>
+
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">How It Works</h5>
+            </div>
+            <div class="card-body">
+                <p>Our integrated analysis combines multiple academic research methodologies:</p>
+                <ul>
+                    <li><strong>Harvard/PNAS (40%)</strong> - Position and attribution weighting</li>
+                    <li><strong>Columbia (35%)</strong> - Partisan phrase detection</li>
+                    <li><strong>AllSides (20%)</strong> - Multi-dimensional bias indicators</li>
+                    <li><strong>Sentiment (5%)</strong> - Emotional tone analysis</li>
+                </ul>
+                <p class="mb-0">
+                    Results show bias on a -1.000 to +1.000 scale with component breakdowns 
+                    for transparency.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

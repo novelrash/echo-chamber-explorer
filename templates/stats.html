@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}Statistics - Echo Chamber Explorer{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2 class="mb-4">Analysis Statistics</h2>
+        
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h3 class="card-title text-primary">{{ total_articles }}</h3>
+                        <p class="card-text">Total Articles Analyzed</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h3 class="card-title text-info">
+                            {% if bias_stats.avg_bias is not none %}
+                                {{ "%.3f"|format(bias_stats.avg_bias) }}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </h3>
+                        <p class="card-text">Average Bias Score</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h3 class="card-title text-success">
+                            {% if bias_stats.min_bias is not none %}
+                                {{ "%.3f"|format(bias_stats.min_bias) }}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </h3>
+                        <p class="card-text">Most Left-Leaning</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h3 class="card-title text-warning">
+                            {% if bias_stats.max_bias is not none %}
+                                {{ "%.3f"|format(bias_stats.max_bias) }}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </h3>
+                        <p class="card-text">Most Right-Leaning</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if bias_distribution %}
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Bias Distribution</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Bias Category</th>
+                                <th>Count</th>
+                                <th>Percentage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for category in bias_distribution %}
+                            <tr>
+                                <td>{{ category.bias_category }}</td>
+                                <td>{{ category.count }}</td>
+                                <td>{{ "%.1f"|format((category.count / total_articles * 100) if total_articles > 0 else 0) }}%</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="text-center mt-4">
+            <a href="{{ url_for('analyze') }}" class="btn btn-primary">
+                Analyze More Content
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Echo Chamber Explorer - Home{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="text-center mb-5">
+            <h1 class="display-4 mb-3">Echo Chamber Explorer</h1>
+            <p class="lead">
+                Break through bias with academic research-based analysis
+            </p>
+            <p class="text-muted">
+                Integrated methodology combining Harvard/PNAS, Columbia, and AllSides research
+            </p>
+        </div>
+
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">🎯 Directional Detection</h5>
+                        <p class="card-text">
+                            Identifies left vs right bias with -1.000 to +1.000 scale
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">🔬 Academic Research</h5>
+                        <p class="card-text">
+                            Based on peer-reviewed methodologies from top institutions
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">📊 Transparent Analysis</h5>
+                        <p class="card-text">
+                            See exactly how each methodology contributes to the score
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mb-5">
+            <a href="{{ url_for('analyze') }}" class="btn btn-primary btn-lg me-3">
+                Start Analysis
+            </a>
+            <a href="{{ url_for('stats') }}" class="btn btn-outline-secondary btn-lg">
+                View Statistics
+            </a>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Methodology Overview</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Research Sources:</h6>
+                        <ul class="list-unstyled">
+                            <li><strong>Harvard/PNAS (40%)</strong> - Position & attribution weighting</li>
+                            <li><strong>Columbia (35%)</strong> - Partisan phrase detection</li>
+                            <li><strong>AllSides (20%)</strong> - Multi-dimensional assessment</li>
+                            <li><strong>Sentiment (5%)</strong> - Emotional tone analysis</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Key Features:</h6>
+                        <ul class="list-unstyled">
+                            <li>✓ Position-based weighting</li>
+                            <li>✓ Attribution analysis</li>
+                            <li>✓ Source diversity scoring</li>
+                            <li>✓ 3 significant figure precision</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
