@@ -14,15 +14,10 @@ import math
 
 class IntegratedBiasAnalyzer:
     def __init__(self):
-        # Download required NLTK data
-        try:
-            nltk.data.find('tokenizers/punkt')
-            nltk.data.find('taggers/averaged_perceptron_tagger')
-            nltk.data.find('tokenizers/punkt_tab')
-        except LookupError:
-            nltk.download('punkt')
-            nltk.download('averaged_perceptron_tagger')
-            nltk.download('punkt_tab')
+        # Download required NLTK data (quiet=True suppresses "already downloaded" noise)
+        nltk.download('punkt', quiet=True)
+        nltk.download('averaged_perceptron_tagger', quiet=True)
+        nltk.download('punkt_tab', quiet=True)
         
         # Methodology weights (rebalanced)
         self.methodology_weights = {
